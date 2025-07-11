@@ -157,7 +157,7 @@ const App = () => {
         <>
           <audio ref={audioRef} controls className="w-full rounded-lg">
             {/* Ganti URL ini dengan URL lagu Suno AI-mu */}
-            <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg" />
+            <source src="%PUBLIC_URL%/HBDSuci.mp3" type="audio/mpeg" />
             Browser Anda tidak mendukung elemen audio.
           </audio>
           <p className="text-sm text-white mt-2 text-center">
