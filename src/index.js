@@ -1,6 +1,5 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import './index.css'; // Kalau ada, biarkan saja
 import App from './App'; // Pastikan ini ada dan mengimpor App
 import reportWebVitals from './reportWebVitals'; // Opsional, bisa dihapus kalau mau
 
