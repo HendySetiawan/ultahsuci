@@ -1,0 +1,371 @@
+<style>
+        {`
+          body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden; /* Mencegah scroll horizontal */
+          }
+
+          /* General Animations */
+          /* Menggunakan revealContent untuk semua elemen yang muncul secara berurutan */
+          @keyframes revealContent {
+            from { transform: translateY(50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+          }
+
+          /* Animasi instan untuk kontainer utama setelah amplop terbuka */
+          .animate-fadeInInstant {
+            animation: fadeInInstant 0.1s ease-out forwards; /* Sangat cepat */
+            animation-delay: 6.5s; /* Mulai setelah urutan amplop selesai */
+          }
+          @keyframes fadeInInstant {
+            from { opacity: 0; }
+            to { opacity: 1; }
+          }
+
+
+          /* Envelope Styling and Animations */
+          .envelope-wrapper {
+            position: absolute;
+            width: 90%; /* Responsive width */
+            max-width: 350px; /* Max width for larger screens */
+            aspect-ratio: 1.4 / 1; /* Common envelope aspect ratio */
+            cursor: pointer; /* Cursor indicates clickable area */
+            border-radius: 1rem; /* Rounded corners for the whole envelope area */
+            overflow: hidden; /* Ensure halves don't spill */
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3); /* Subtle shadow */
+            display: flex; /* For centering content */
+            justify-content: center;
+            align-items: center;
+            
+            /* Animasi Gradasi Warna */
+            background: linear-gradient(135deg, #5800FF, #0096FF, #5800FF); /* Ungu ke Biru ke Ungu */
+            background-size: 200% 200%; /* Ukuran background lebih besar dari elemen */
+            animation: gradientAnimation 10s ease infinite alternate; /* Animasi gradasi */
+          }
+
+          .envelope-half {
+            position: absolute;
+            left: 0;
+            width: 100%;
+            height: 50%;
+            transition: transform 1.5s ease-in-out; /* Smooth transition */
+            z-index: 2; /* Di atas konten yang terungkap */
+            border-radius: 1rem; /* Inherit from wrapper */
+            /* Warna gradasi pada flap amplop */
+            background: linear-gradient(135deg, #5800FF, #0096FF, #5800FF); /* Ungu ke Biru ke Ungu */
+            background-size: 200% 200%; /* Ukuran background lebih besar dari elemen */
+            animation: gradientAnimation 10s ease infinite alternate; /* Animasi gradasi */
+          }
+
+          .top-half {
+            top: 0;
+            border-bottom-left-radius: 0;
+            border-bottom-right-radius: 0;
+            border-bottom: 2px solid #00D7FF; /* Neon Light Blue border for the split line */
+          }
+
+          .bottom-half {
+            bottom: 0;
+            border-top-left-radius: 0;
+            border-top-right-radius: 0;
+            border-top: 2px solid #00D7FF; /* Neon Light Blue border for the split line */
+          }
+
+          .envelope-revealed-content {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 1rem;
+            text-align: center;
+            border-radius: 1rem;
+            z-index: 1; /* Di bawah flap amplop */
+            opacity: 0; /* Awalnya tersembunyi */
+            /* Transisi untuk fade-in dan fade-out */
+            transition: opacity 0.5s ease-in-out; /* Default transition for fade-in */
+          }
+
+          .envelope-wrapper.open .envelope-revealed-content {
+            opacity: 1; /* Tampilkan saat amplop terbuka */
+            transition-delay: 1.5s; /* Delay untuk fade-in setelah amplop terbuka */
+          }
+
+          .envelope-revealed-content.fade-out {
+            opacity: 0;
+            transition: opacity 1s ease-out; /* Override transisi untuk fade-out */
+            transition-delay: 0s; /* Tanpa delay untuk fade-out */
+          }
+
+          .envelope-front-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 1rem;
+            text-align: center;
+            z-index: 3; /* Di atas flap amplop saat tertutup */
+            background-color: transparent; /* Tanpa background, hanya konten */
+            transition: opacity 0.5s ease-in-out;
+          }
+
+          /* Open state for envelope */
+          .envelope-wrapper.open .top-half {
+            transform: translateY(-100%); /* Bergerak ke atas sebesar tingginya */
+          }
+
+          .envelope-wrapper.open .bottom-half {
+            transform: translateY(100%); /* Bergerak ke bawah sebesar tingginya */
+          }
+
+          /* Ketika amplop terbuka, sembunyikan overlay depan sepenuhnya */
+          .envelope-wrapper.open .envelope-front-overlay {
+            opacity: 0; /* Sembunyikan overlay depan saat terbuka */
+            pointer-events: none; /* Nonaktifkan klik pada overlay yang tersembunyi */
+            z-index: -1; /* Pastikan ia berada di belakang semua konten */
+          }
+
+          /* Keyframes untuk Animasi Gradasi Warna */
+          @keyframes gradientAnimation {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+          }
+
+          /* Custom Shadow for main content container */
+          .custom-shadow-main {
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4), /* Black shadow */
+                        0 0 25px rgba(88, 0, 255, 0.3),   /* Purple glow */
+                        0 0 40px rgba(0, 215, 255, 0.2);  /* Lighter blue neon */
+          }
+
+          /* Styles for sender/recipient text on envelope halves */
+          .sender-info, .recipient-info {
+            position: absolute;
+            width: 100%;
+            text-align: center;
+            font-weight: bold;
+            font-size: 1.25rem; /* text-xl */
+            line-height: 1.2;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5); /* Bayangan hitam yang lebih lembut */
+            /* Pastikan teks berada di atas gradasi background flap */
+            z-index: 3; /* Lebih tinggi dari flap (z-index: 2) */
+          }
+
+          .sender-info {
+            top: 50%; /* Disesuaikan ke 50% */
+            transform: translateY(-50%);
+          }
+
+          .sender-info .small-text {
+            font-size: 0.875rem; /* text-sm */
+            font-weight: normal;
+            display: block;
+            margin-top: 0.25rem;
+            color: rgba(255, 255, 255, 0.8); /* Putih sedikit pudar */
+          }
+
+          .recipient-info {
+            bottom: 50%; /* Disesuaikan ke 50% */
+            transform: translateY(50%);
+          }
+
+          .recipient-info .small-text {
+            font-size: 0.875rem; /* text-sm */
+            font-weight: normal;
+            display: block;
+            margin-top: 0.25rem;
+            color: rgba(255, 255, 255, 0.8); /* Putih sedikit pudar */
+          }
+
+          /* Gradient for Hendy Setiawan */
+          .sender-name-gradient {
+            background: linear-gradient(90deg, #FFFFFF, #0096FF); /* Putih ke Biru */
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text; /* Standard property */
+            color: transparent; /* Fallback for non-webkit browsers */
+            background-size: 200% 100%;
+            animation: textGradientAnimationHendy 2s ease infinite alternate; /* Dipercepat menjadi 2 detik */
+          }
+
+          /* Gradient for Suci Lestari */
+          .recipient-name-gradient {
+            background: linear-gradient(90deg, #5800FF, #FF69B4); /* Ungu ke Pink Cerah (HotPink) */
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text; /* Standard property */
+            color: transparent; /* Fallback for non-webkit browsers */
+            background-size: 200% 100%;
+            animation: textGradientAnimationSuci 2s ease infinite alternate; /* Dipercepat menjadi 2 detik */
+          }
+
+          /* Keyframes for text gradient animations */
+          @keyframes textGradientAnimationHendy {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 100% 50%; }
+          }
+
+          @keyframes textGradientAnimationSuci {
+            0% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+          }
+
+          /* Hide text when envelope opens */
+          .envelope-wrapper.open .sender-info,
+          .envelope-wrapper.open .recipient-info {
+            opacity: 0;
+            transition: opacity 0.3s ease-out;
+          }
+
+          /* Sparkle Burst Animation */
+          .sparkle-burst {
+            position: absolute;
+            width: 120px; /* Ukuran efek */
+            height: 120px;
+            background: radial-gradient(circle, #72FFFF 0%, transparent 70%); /* Cahaya neon */
+            border-radius: 50%;
+            opacity: 0;
+            transform: scale(0);
+            animation: sparkleBurst 1s ease-out forwards; /* Animasi singkat */
+            z-index: 4; /* Di atas konten surat */
+          }
+
+          @keyframes sparkleBurst {
+            0% { opacity: 1; transform: scale(0); }
+            50% { opacity: 1; transform: scale(2.5); }
+            100% { opacity: 0; transform: scale(5); }
+          }
+
+          /* Sequential Reveal Animations for Main Content */
+          /* Menggunakan revealContent untuk semua elemen yang muncul secara berurutan */
+          .animate-reveal-0 { animation: revealContent 1.2s ease-out forwards; animation-delay: 0.2s; will-change: transform, opacity; transform: translateZ(0); } /* Header Utama */
+          .animate-reveal-1 { animation: revealContent 1.2s ease-out forwards; animation-delay: 0.8s; will-change: transform, opacity; transform: translateZ(0); } /* Kartu 1: Ucapan Selamat Ulang Tahun */
+          .animate-reveal-2 { animation: revealContent 1.2s ease-out forwards; animation-delay: 1.4s; will-change: transform, opacity; transform: translateZ(0); } /* Kartu 2: Doa dan Harapan */
+          .animate-reveal-3 { animation: revealContent 1.2s ease-out forwards; animation-delay: 2.0s; will-change: transform, opacity; transform: translateZ(0); } /* Kartu 3: Pesan Dariku, Hendy */
+          .animate-reveal-4 { animation: revealContent 1.2s ease-out forwards; animation-delay: 2.6s; will-change: transform, opacity; transform: translateZ(0); } /* Garis Pembatas (jika ada) */
+          .animate-reveal-5 { animation: revealContent 1.2s ease-out forwards; animation-delay: 3.2s; will-change: transform, opacity; transform: translateZ(0); } /* Kartu 4: Kartu Galeri Foto */
+          .animate-reveal-6 { animation: revealContent 1.2s ease-out forwards; animation-delay: 3.8s; will-change: transform, opacity; transform: translateZ(0); } /* Kartu 5: Hadiah Digital */
+          .animate-reveal-7 { animation: revealContent 1.2s ease-out forwards; animation-delay: 4.4s; will-change: transform, opacity; transform: translateZ(0); } /* Footer */
+
+
+          /* Card Base Styling */
+          .card-base {
+            border-radius: 0.75rem; /* Sedikit lancip, antara rounded-lg (0.5rem) dan rounded-xl (0.75rem) */
+            padding: 1.5rem; /* p-6 */
+            border: 2px solid transparent; /* Border awal transparan */
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.3s ease-in-out; /* Transisi umum */
+            position: relative; /* Untuk z-index dan shadow */
+            z-index: 1; /* Default z-index */
+            will-change: transform, box-shadow, height; /* Optimasi performa animasi */
+          }
+
+          .card-base.expanded {
+            transform: scale(1.02); /* Efek sedikit membesar saat expanded */
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.6); /* Shadow lebih kuat saat expanded */
+            height: auto !important; /* Biarkan konten menentukan tinggi */
+            max-height: 500px; /* Batas tinggi untuk transisi */
+            transition: all 0.5s ease-in-out; /* Transisi lebih lambat saat expand */
+            z-index: 2; /* Kartu yang terbuka di atas yang lain */
+          }
+
+          .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1rem;
+            cursor: pointer; /* Pastikan hanya header yang bisa diklik untuk toggle */
+          }
+
+          .card-content {
+            max-height: 0;
+            opacity: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease-in-out, opacity 0.3s ease-in-out;
+            margin-top: 0;
+            padding-top: 0;
+          }
+
+          .card-base.expanded .card-content {
+            max-height: 600px; /* Cukup tinggi untuk semua konten */
+            opacity: 1;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1); /* Garis pemisah konten yang lebih halus */
+          }
+
+          /* Card Gradient Colors */
+          .card-gradient-1 {
+            background: linear-gradient(135deg, #5800FF, #4000A0); /* Ungu dominan */
+            background-size: 200% 200%;
+            animation: gradientAnimation 10s ease infinite alternate;
+          }
+          .card-gradient-2 {
+            background: linear-gradient(135deg, #4000A0, #0096FF); /* Ungu ke biru */
+            background-size: 200% 200%;
+            animation: gradientAnimation 10s ease infinite alternate;
+          }
+          .card-gradient-3 {
+            background: linear-gradient(135deg, #0096FF, #00D7FF); /* Biru ke biru terang */
+            background-size: 200% 200%;
+            animation: gradientAnimation 10s ease infinite alternate;
+          }
+          .card-gradient-4 {
+            background: linear-gradient(135deg, #00D7FF, #72FFFF); /* Biru terang ke biru paling terang */
+            background-size: 200% 200%;
+            animation: gradientAnimation 10s ease infinite alternate;
+          }
+          .card-gradient-5 {
+            background: linear-gradient(135deg, #72FFFF, #0096FF); /* Biru paling terang ke biru */
+            background-size: 200% 200%;
+            animation: gradientAnimation 10s ease infinite alternate;
+          }
+
+
+          /* Card Sway Animation (goyang halus) */
+          .animate-card-sway {
+            animation: cardSway 3s ease-in-out infinite alternate;
+          }
+
+          @keyframes cardSway {
+            0% { transform: translateY(0) rotate(0deg); }
+            25% { transform: translateY(-2px) rotate(0.5deg); }
+            75% { transform: translateY(2px) rotate(-0.5deg); }
+            100% { transform: translateY(0) rotate(0deg); }
+          }
+
+          /* Custom Shadow for cards (hitam biasa) */
+          .custom-shadow-card {
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4); /* Bayangan hitam standar */
+          }
+
+          /* Custom scrollbar for better aesthetics, especially on mobile */
+          ::-webkit-scrollbar {
+            width: 8px;
+          }
+          ::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+          }
+          ::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 10px;
+          }
+          ::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 255, 255, 0.5);
+          }
+        `}
+      </style>
