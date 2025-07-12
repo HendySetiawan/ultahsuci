@@ -1,0 +1,31 @@
+UPDATE DAN PERBAIKAN PADA MICROSITE:
+
+1. Background Header
+	Ditambahkan Foto atau Background pada Header Judul Menu Utama (sebagai background untuk tulisan "Untuk Suci Lestari")
+
+2. POP UP Tambahan
+	Diawal situs dibuka, ada kartu Pop Up yang berisi teks dengan susunan sebagai berikut:
+	
+	[Ucapan Selamat Sore, Malam, Siang, Atau Pagi berdasarkan jam sekarang.]
+	Halo, neng! Ini adalah aplikasi berbasis web sederhana yang aku bikinin khusus buat Ulang Tahun kamu yang ke 26 Tahun ini.
+	Semoga kamu suka yaa...
+	[Tombol menuju Amplop bertuliskan "Oke, Lanjutt..."]
+
+
+3. Merubah Semua Teks
+	Merubah teks dengan kata-kataku sendiri.
+
+4. Menyesuaikan Ukuran, Posisi, Font agar seimbang dan terlihat responsive.
+
+[OPSIONAL JIKA MASIH ADA SISA WAKTU]
+
+1. Menambahkan Dekorasi agar lebih terlihat lucu
+
+2. Mengganti Icon Judul Kartu dengan ikon foto Suci yang sudah dirubah menjadi ikon lucu.
+
+
+{Ide Chat}
+	Assalamualaikum, Neng!
+	Udah tidur belom? Semoga belom ya..
+	Sebagai penutup hari spesial ini, Aku mau kasih kamu sesuatu nih. Tolong dibuka ya...
+	[Link]
