@@ -294,7 +294,7 @@
           .animate-reveal-3 { animation: revealContent 1.2s ease-out forwards; animation-delay: 2.0s; will-change: transform, opacity; transform: translateZ(0); } /* Kartu 3: Pesan Dariku, Hendy */
           .animate-reveal-4 { animation: revealContent 1.2s ease-out forwards; animation-delay: 2.6s; will-change: transform, opacity; transform: translateZ(0); } /* Garis Pembatas (jika ada) */
           .animate-reveal-5 { animation: revealContent 1.2s ease-out forwards; animation-delay: 3.2s; will-change: transform, opacity; transform: translateZ(0); } /* Kartu 4: Kartu Galeri Foto */
-          .animate-reveal-6 { animation: revealContent 1.2s ease-out forwards; animation-delay: 3.8s; will-change: transform, opacity; transform: translateZ(0); } /* Kartu 5: Hadiah Digital */
+          .animate-reveal-6 { animation: revealContent 1.2s ease-out forwards; animation-delay: 3.8s; will-change: transform, opacity; transform: translateZ(0); } /* Kartu 5: Kartu Penjelasan */
           .animate-reveal-7 { animation: revealContent 1.2s ease-out forwards; animation-delay: 4.4s; will-change: transform, opacity; transform: translateZ(0); } /* Footer */
 
 
@@ -432,3 +432,19 @@
           ::-webkit-scrollbar-thumb:hover {
             background: rgba(255, 255, 255, 0.5);
           }
+
+/* Font */
+
+.disclaimer {
+color: #c0392b;
+}
+
+.red-line {
+  border-color: #c0392b;
+  border-width: 1px;
+  border-style: solid;
+  margin: 1.5rem ;
+}
+.pinkfont {
+  color: deeppink;
+}

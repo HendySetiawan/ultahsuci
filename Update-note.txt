@@ -1,21 +1,46 @@
-UPDATE DAN PERBAIKAN PADA MICROSITE:
+Update-Note By Hendy Untuk Microsite Ulang Tahun, Suci Lestari.
+Deskripsi File: Ini adalah file catatan atau notes untuk Web ini.
 
-1. Background Header
-	Ditambahkan Foto atau Background pada Header Judul Menu Utama (sebagai background untuk tulisan "Untuk Suci Lestari")
-
-2. POP UP Tambahan
-	Diawal situs dibuka, ada kartu Pop Up yang berisi teks dengan susunan sebagai berikut:
-	
-	[Ucapan Selamat Sore, Malam, Siang, Atau Pagi berdasarkan jam sekarang.]
-	Halo, neng! Ini adalah aplikasi berbasis web sederhana yang aku bikinin khusus buat Ulang Tahun kamu yang ke 26 Tahun ini.
-	Semoga kamu suka yaa...
-	[Tombol menuju Amplop bertuliskan "Oke, Lanjutt..."]
+================================================================
 
 
-3. Merubah Semua Teks
-	Merubah teks dengan kata-kataku sendiri.
+[UPDATE 14 JULI 2025 / 00.56 WIB]
 
-4. Menyesuaikan Ukuran, Posisi, Font agar seimbang dan terlihat responsive.
+Dikarena Target penyelesaian Microsite yang harus jam 13.00 sudah terlewat dan Aku tidak bisa melanjutkan coding karena ada keperluan di luar ini (Ke Rumah Mama dan Nanti Malam Rapat Kepemudaan RT). Aku memutuskan untuk mengirmkan "Kejutan Kecil" ini seadanya dulu. Yang terpenting 3 Kartu utama sudah berhasil dibuat; Kartu Ucapan, Kartu Doa dan Harapan, Dan juga Kartu Pesan Dariku.
+
+Sementara ini Berikut adalah update terbaru:
+
+	1. FITUR GALERI SEMENTARA DITUTUP
+		Fitur Galeri Foto sementara ditutup menggunakan Placeholder.
+		Alasan: Karena aku kurang prepare, tidak menyiapkan foto-foto kenangan yang seharusnya sudah siap. Ini aku sedang mencari-carinya di folder lama, dan itu membutuhkan waktu yang lumayan. Ditambah Firefox yang fore-close ketika aku sedang mencari secara online tadi.
+
+	2. FITUR HADIAH DIGITAL
+		Fitur Hadiah Digital ini akan dirubah Menjadi "Kartu Penjelasan".
+		Kartu penjelasan ini berisi penjelasan aku mengapa situs ini belum siap, mengapa aku mengirimnya terlambat, dan semua alasan terkait terkendalanya hadiah ini.
+
+	3. TERJADI ERROR CODE
+		Kamu bisa lihat dimana letak kode yang error di analisamu nanti.
+
+RENCANA UPDATE DAN PERBAIKAN TANGGAL 14 JULI 2025 UNTUK MICROSITE INI:
+
+(Kita akan mengaturnya nanti)
+
+1. FOKUS PADA GALERI FOTO!!
+	Aku ingin Galeri Foto ini dirombak menjadi seperti garis waktu momen-momen yang harus diingat antara aku dan Suci. Sebelumnya aku berpikir Bahwa Semua foto di galeri ini adalah foto-foto dari momen yang menurutku lucu untuk diingat bagi aku dan Suci.
+	Tapi sekarang aku ingin bahwa Galeri Foto ini akan aku rubah se 
+	Berikut ini adalah daftar foto yang harus aku cari dan aku masukkan:
+		A. Screenshot Pertama Kali aku menghubungi Suci (Aku meminta follback di Twitter pada desember 2016)
+		status: Sudah ketemu.
+		B. Tempat Pertama Kali Aku Bertemu Dia
+		status: Tidak ada foto. Tapi aku ingin menampilkan screenshot Alfamart Klari (Tempat dimana aku pertama kali bertemu dengannya) 8 September 2017
+		C. Foto Pertama Kali Aku Main Jauh bersamanya.
+		status: Sayangnya
+
+
+2. MERUBAH KEMBALI KARTU PENJELASAN
+	Kartu Penjelasan kali ini akan dirubah menjadi Menu Lain, Akan Kita pikirkan lagi besok. Karena Kartu Hadiah Digital menurutku kurang cocok.
+
+
 
 [OPSIONAL JIKA MASIH ADA SISA WAKTU]
 
@@ -25,7 +50,39 @@ UPDATE DAN PERBAIKAN PADA MICROSITE:
 
 
 {Ide Chat}
-	Assalamualaikum, Neng!
-	Udah tidur belom? Semoga belom ya..
-	Sebagai penutup hari spesial ini, Aku mau kasih kamu sesuatu nih. Tolong dibuka ya...
-	[Link]
+	Ini adalah ide chatku ke Suci nanti
+
+[CATATAN KODE]
+
+Ini adalah kode pada konten Galeri Foto Sebelumnya (Yang sekarang sementara digantikan oleh placeholder):
+
+<>
+          <div className="relative w-full rounded-xl overflow-hidden mb-4 shadow-lg border border-[#0096FF]">
+            <img
+              src={galleryPhotos[currentPhotoIndex].src}
+              alt={`Foto ${currentPhotoIndex + 1}`}
+              className="w-full h-auto object-cover"
+              onError={(e) => { e.target.onerror = null; e.target.src = 'https://placehold.co/400x250/CCCCCC/000000?text=Gambar+Tidak+Tersedia'; }}
+            />
+            <div className="absolute inset-x-0 bottom-0 bg-black bg-opacity-50 p-2 text-center text-sm text-white">
+              {galleryPhotos[currentPhotoIndex].caption}
+            </div>
+            {/* Tombol Navigasi Galeri */}
+            <button
+              onClick={goToPrevPhoto}
+              className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-white bg-opacity-30 rounded-full p-2 text-white hover:bg-opacity-50 transition"
+            >
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 19l-7-7 7-7"></path></svg>
+            </button>
+            <button
+              onClick={goToNextPhoto}
+              className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-white bg-opacity-30 rounded-full p-2 text-white hover:bg-opacity-50 transition"
+            >
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7"></path></svg>
+            </button>
+          </div>
+          <p className="text-sm text-white text-center mt-2">
+            (Geser foto dengan tombol panah di samping!)
+          </p>
+        </>
+      ),
